@@ -1,2 +1,3 @@
 data/*.json
+data/mpd
 .ipynb_checkpoints/
