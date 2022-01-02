@@ -6,6 +6,7 @@
 import os
 import json
 import pandas as pd
+import numpy as np
 import itertools
 
 def process_mpd(path, quick=False, maxfiles=10, debug=False, progress=True):
