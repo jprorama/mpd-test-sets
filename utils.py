@@ -73,3 +73,14 @@ def process_mpd(path, quick=False, maxfiles=10, debug=False, progress=True):
     tracks.reset_index(drop=True, inplace=True)
     
     return playlists, tracks
+
+def convert_to_64bit_indices(A):
+    """
+    Convert to 64bit index to avoid "RuntimeError: nnz of the result is too large"
+    https://github.com/scipy/scipy/issues/12495#issuecomment-654439994
+
+    This was preventing the creation of matrices beyond about 30k x 30k.
+    """
+    A.indptr = np.array(A.indptr, copy=False, dtype=np.int64)
+    A.indices = np.array(A.indices, copy=False, dtype=np.int64)
+    return A
