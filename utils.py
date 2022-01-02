@@ -6,6 +6,7 @@
 import os
 import json
 import pandas as pd
+import itertools
 
 def process_mpd(path, quick=False, maxfiles=10, debug=False, progress=True):
     """
@@ -84,3 +85,13 @@ def convert_to_64bit_indices(A):
     A.indptr = np.array(A.indptr, copy=False, dtype=np.int64)
     A.indices = np.array(A.indices, copy=False, dtype=np.int64)
     return A
+
+def sort_csr(m):
+    """
+    sort track score pairs from a sparse matrix by the score rather than index
+
+    used to sort the ouput of recommendation scores in score order.
+    """
+    tuples = zip(m.indices, m.data)
+    return sorted(tuples, key=lambda x: (x[1]), reverse=True)
+
