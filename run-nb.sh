@@ -3,15 +3,15 @@
 # run RS notebook with specific data set.
 #
 #
-module load Anaconda3/2020.11
+module load Anaconda3/2021.11
 
 #source /share/apps/rc/software/Anaconda3/2020.11/etc/profile.d/conda.sh
-conda  activate mpd
+conda  activate mpd2
 
 papermill \
         -p dataset ${DATASET} \
         -p challenge_name ${CNAME} \
-        -k mpd \
+        -k mpd2 \
 	${NB}.ipynb \
 	${NB}-${CNAME}-${DATASET}.ipynb
 
