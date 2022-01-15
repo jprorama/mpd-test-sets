@@ -8,6 +8,8 @@ module load Anaconda3/2021.11
 #source /share/apps/rc/software/Anaconda3/2020.11/etc/profile.d/conda.sh
 conda  activate mpd2
 
+./watchme.sh ${SLURM_TASK_PID} &
+
 papermill \
         -p dataset ${DATASET} \
         -p challenge_name ${CNAME} \
