@@ -8,6 +8,7 @@ import json
 import pandas as pd
 import numpy as np
 import itertools
+import time
 
 def process_mpd(path, quick=False, maxfiles=10, debug=False, progress=True):
     """
@@ -96,3 +97,16 @@ def sort_csr(m):
     tuples = zip(m.indices, m.data)
     return sorted(tuples, key=lambda x: (x[1]), reverse=True)
 
+tictoc=time.time()
+
+def tic():
+    global tictoc
+    tictoc = time.time()
+
+def toc(msg=""):
+    global tictoc
+
+    if msg=="":
+        print("--- {} seconds ---\n".format(time.time() - tictoc))
+    else:
+        print("--- {} seconds for {} ---\n".format(time.time() - tictoc, msg))
