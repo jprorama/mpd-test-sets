@@ -27,4 +27,4 @@ do
   fi
 done
 
-pidstat -p $pythonpid -dru -h 1 > pidstat-${SLURM_JOBID}.out
+pidstat -p $pythonpid -dru -h 1 > ${RESULTSDIR}pidstat-${SLURM_JOBID}.out

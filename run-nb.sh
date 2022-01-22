@@ -10,12 +10,16 @@ conda  activate mpd2
 
 ./watchme.sh ${SLURM_TASK_PID} &
 
+TAGNAME=slurm-${SLURM_JOBID}
+
 papermill \
         -p dataset ${DATASET} \
         -p challenge_name ${CNAME} \
+        -p tagname ${TAGNAME} \
+        -p resultsdir ${RESULTSDIR} \
         -k mpd2 \
 	${NB}.ipynb \
-	${NB}-${CNAME}-${DATASET}-slurm-${SLURM_JOBID}.ipynb
+	${RESULTSDIR}${NB}-${CNAME}-${DATASET}-slurm-${SLURM_JOBID}.ipynb
 
 # verify the expected output of the solution
 #python2 ../mpd-challenge/verify_submission.py data/mympd-full/challenge_set.json method-u2uknn-mympd-full-mympd-full-20k-2022-01-05.csv | egrep -v 'unknown challenge track|submission has 1 error'  
