@@ -134,9 +134,11 @@ if __name__ == "__main__":
         print(
             "Submission is OK! Remember to gzip your submission before submitting it to the challenge."
         )
+        exit(0)
     else:
         print(
             "Your submission has",
             errors,
             "errors. If you submit it, it will be rejected.",
         )
+        exit(1)
