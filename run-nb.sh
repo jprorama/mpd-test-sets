@@ -19,7 +19,7 @@ papermill \
         -p resultsdir ${RESULTSDIR} \
         -k mpd2 \
 	${NB}.ipynb \
-	${RESULTSDIR}${NB}-${CNAME}-${DATASET}-slurm-${SLURM_JOBID}.ipynb
+	${RESULTSDIR}${NB}_${CNAME}_${DATASET}_slurm-${SLURM_JOBID}.ipynb
 
 if [ $? -ne 0 ]
 then
