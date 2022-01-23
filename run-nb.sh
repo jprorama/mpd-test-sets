@@ -21,13 +21,20 @@ papermill \
 	${NB}.ipynb \
 	${RESULTSDIR}${NB}-${CNAME}-${DATASET}-slurm-${SLURM_JOBID}.ipynb
 
+if [ $? -ne 0 ]
+then
+  echo "papermill failed"
+  exit 1
+fi
+
 # verify the expected output of the solution
-#python2 ../mpd-challenge/verify_submission.py data/mympd-full/challenge_set.json method-u2uknn-mympd-full-mympd-full-20k-2022-01-05.csv | egrep -v 'unknown challenge track|submission has 1 error'  
-#
-#if [ $? -eq 1 ]
-#then 
+python verify_submission.py data/${CNAME}/challenge_set.json ${RESULTSDIR}/method*_slurm-${SLURM_JOBID}.csv
+
+if [ $? -ne 0 ]
+then
+   echo "verify_submission failed"
+   exit 1
+fi
+
 #  gzip method output
-#  move to results dir
-#else
-#  return 1
-#fi
+gzip ${RESULTSDIR}/method*_slurm-${SLURM_JOBID}.csv
