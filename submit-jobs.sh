@@ -29,9 +29,9 @@ do
       NB=$notebook DATASET=mympd-full-${size}k CNAME=$chall RESULTSDIR=$resultsdir && \
       NB=$NB DATASET=$DATASET CNAME=$CNAME  RESULTSDIR=$RESULTSDIR \
       sbatch --job-name=$NB-$CNAME-$DATASET \
-        -n 4 -N 1 \
+        -n 1 -N 1 \
         --time=120 \
-        --mem=400G\
+        --mem=200G \
         --partition=amd-hdr100 $miscargs \
         run-nb.sh
       sleep 1
