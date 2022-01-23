@@ -17,6 +17,7 @@ papermill \
         -p challenge_name ${CNAME} \
         -p tagname ${TAGNAME} \
         -p resultsdir ${RESULTSDIR} \
+        -p method ${NB} \
         -k mpd2 \
 	${NB}.ipynb \
 	${RESULTSDIR}${NB}_${CNAME}_${DATASET}_slurm-${SLURM_JOBID}.ipynb
