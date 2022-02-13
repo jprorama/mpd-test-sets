@@ -6,7 +6,7 @@
 module load Anaconda3/2021.11
 
 #source /share/apps/rc/software/Anaconda3/2020.11/etc/profile.d/conda.sh
-conda  activate mpd2
+conda  activate mpd3
 
 ./watchme.sh ${SLURM_TASK_PID} &
 
@@ -18,7 +18,7 @@ papermill \
         -p tagname ${TAGNAME} \
         -p resultsdir ${RESULTSDIR} \
         -p method ${NB} \
-        -k mpd2 \
+        -k mpd3 \
 	${NB}.ipynb \
 	${RESULTSDIR}${NB}_${CNAME}_${DATASET}_slurm-${SLURM_JOBID}.ipynb
 
