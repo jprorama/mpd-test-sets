@@ -1,0 +1,7 @@
+#!/bin/bash -l
+
+module load Anaconda3/2021.11
+conda activate mpd3
+
+cd ~/projects/mpd-test-sets/
+./$@
