@@ -16,24 +16,39 @@ fi
 # if resultsdir a dir (ends in /) and not a prefix mkdir if needed
 if [ "${resultsdir: -1:1}" == "/" ]
 then
-  mkdir -p ${resultsdir}
+  mkdir -p ${resultsdir}/cache
 fi
 
 
 for size in $sizes
 do
-  for notebook in $methods
+  for method in $methods
   do
     for chall in $challenges
     do
-      NB=$notebook DATASET=mympd-full-${size}k CNAME=$chall RESULTSDIR=$resultsdir && \
-      NB=$NB DATASET=$DATASET CNAME=$CNAME  RESULTSDIR=$RESULTSDIR \
-      sbatch --job-name=$NB-$CNAME-$DATASET \
-        -n 1 -N 1 \
-        --time=120 \
-        --mem=200G \
-        --partition=amd-hdr100 $miscargs \
-        run-nb.sh
+      if [ "$method" == "vl6" ]
+      then 
+        METHOD=$method DATASET=mympd-full-${size}k CNAME=$chall RESULTSDIR=$resultsdir && \
+        METHOD=$METHOD DATASET=$DATASET CNAME=$CNAME  RESULTSDIR=$RESULTSDIR \
+        sbatch --job-name=$METHOD-$CNAME-$DATASET \
+          -n 28 -N 1 \
+          --time=11h \
+          --mem=239G \
+          --partition=pascalnodes \
+          --gpus-per-node=4 \
+          --exclusive \
+	  $miscargs \
+          run-vl6.sh
+      else
+        NB=$method DATASET=mympd-full-${size}k CNAME=$chall RESULTSDIR=$resultsdir && \
+        NB=$NB DATASET=$DATASET CNAME=$CNAME  RESULTSDIR=$RESULTSDIR \
+        sbatch --job-name=$NB-$CNAME-$DATASET \
+          -n 1 -N 1 \
+          --time=120 \
+          --mem=200G \
+          --partition=amd-hdr100 $miscargs \
+          run-nb.sh
+      fi
       sleep 1
     done
   done

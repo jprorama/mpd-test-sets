@@ -39,3 +39,21 @@ fi
 
 #  gzip method output
 gzip ${RESULTSDIR}/method*_slurm-${SLURM_JOBID}.csv
+
+if [ $? -ne 0 ]
+then
+   echo "gzip failed"
+   exit 1
+fi
+
+# add mpd runs to the aicrowd queue
+BASEDIR=`pwd`
+
+if [ "$CNAME" == "mpd" ]
+then
+   cd ${BASEDIR}/results/aicrowd-queue
+   ln -s ${BASEDIR}/${RESULTSDIR}/method*_slurm-${SLURM_JOBID}.csv.gz
+else
+   exit 0
+fi
+
