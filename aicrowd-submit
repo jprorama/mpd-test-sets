@@ -7,11 +7,21 @@
 # cd to queue dir
 cd $1
 
-for submission in `ls -tr | head -n 5`
+# optionally limit how many items to submit
+# useful for ad hoc runs and testing
+COUNT=${2:-5}
+
+for submission in `ls -tr | head -n ${COUNT}`
 do
-  aicrowd submission create -c spotify-million-playlist-dataset-challenge \
+  DATESTR=`date +'%Y-%m-%d-%H:%M:%S'`
+  LOGFILE=submits/${submission}-${DATESTR}.log
+  CMD="aicrowd submission create -c spotify-million-playlist-dataset-challenge \
                             -d ${submission} \
-                            -f ${submission} > submits/${submission}.log
+                            -f ${submission}"
+  echo $CMD > $LOGFILE
+  echo =============== >> $LOGFILE
+  $CMD &>> $LOGFILE
+
   rcode=$?
 
   if [ $rcode -ne 0 ]
@@ -21,8 +31,8 @@ do
     echo result code: $rcode
     echo =========================
     echo
-    cat submits/${submission}.log
-    exit 1
+    cat $LOGFILE
+    exit $rcode
   else
     # remove the symlink to delete submission request from queue
     rm ${submission}
