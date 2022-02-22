@@ -18,25 +18,38 @@ do
   CMD="aicrowd submission create -c spotify-million-playlist-dataset-challenge \
                             -d ${submission} \
                             -f ${submission}"
-  echo $CMD > $LOGFILE
   echo =============== >> $LOGFILE
-  $CMD &>> $LOGFILE
+  echo $CMD > $LOGFILE
+  while ! $CMD &>> $LOGFILE
+  do
 
-  rcode=$?
-
-  if [ $rcode -ne 0 ]
-  then
     echo =========================
     echo aicrowd submission failed
-    echo result code: $rcode
     echo =========================
     echo
-    cat $LOGFILE
-    exit $rcode
-  else
-    # remove the symlink to delete submission request from queue
-    rm ${submission}
-  fi
+
+    # see it's a submit time limit and wait if so
+    submittime=`awk '/Submission limit reached.*reset at/{print $11" "$12" "$13}' $LOGFILE`
+    if [ "$submittime" == "" ]
+    then
+      cat $LOGFILE
+      exit $rcode
+    else
+      echo Waiting for submit limit expiration: $submittime | tee -a $LOGFILE
+      # sleep seconds until submit time
+      # https://stackoverflow.com/a/646008/8928529
+      current_epoch=$(date +%s)
+      target_epoch=$(date -d "$submittime" +%s)
+
+      sleep_seconds=$(( $target_epoch - $current_epoch ))
+
+      echo sleep $sleep_seconds >> $LOGFILE
+      sleep $sleep_seconds
+    fi
+  done
+
+  # remove the symlink to delete submission request from queue on success
+  rm ${submission}
 
   # rest five min to avoid failures due to submit overload of aicrowd
   sleep 300
