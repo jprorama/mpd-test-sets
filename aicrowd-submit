@@ -18,8 +18,7 @@ do
   CMD="aicrowd submission create -c spotify-million-playlist-dataset-challenge \
                             -d ${submission} \
                             -f ${submission}"
-  echo =============== >> $LOGFILE
-  echo $CMD > $LOGFILE
+  echo $CMD >> $LOGFILE
   while ! $CMD &>> $LOGFILE
   do
 
@@ -45,6 +44,10 @@ do
 
       echo sleep $sleep_seconds >> $LOGFILE
       sleep $sleep_seconds
+
+      # boundary between multiple runs
+      echo ========================== >> $LOGFILE
+
     fi
   done
 
