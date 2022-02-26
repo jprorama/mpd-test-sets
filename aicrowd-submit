@@ -14,7 +14,8 @@ COUNT=${2:-5}
 for submission in `ls -tr | head -n ${COUNT}`
 do
   DATESTR=`date +'%Y-%m-%d-%H:%M:%S'`
-  LOGFILE=submits/${submission}-${DATESTR}.log
+  EXPERIMENT=`readlink -e $submission | xargs dirname`
+  LOGFILE=$EXPERIMENT/aicrowd-submit_${submission}_${DATESTR}.log
   CMD="aicrowd submission create -c spotify-million-playlist-dataset-challenge \
                             -d ${submission} \
                             -f ${submission}"
