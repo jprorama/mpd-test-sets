@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+
+#
+# parse the aicrowd results page to get scores
+# the aicrowd api doesn't appear to support getting scores
+# so use beautifulsoup to scrape the page.
+# the page has a clean structure with all fields of intresets 
+# in class mr-4 divs with h4 headers as the name of the field of interest
+
+import requests
+from bs4 import BeautifulSoup
+import sys
+
+def get_element(elements, name):
+  """
+  get an element based on name from the list of bs4 elements
+  """
+  for element in elements:
+     #fname = str(element.find('h4').string)
+     if ( element.find('h4').string == name ):
+        return element
+
+URL = sys.argv[1]
+page = requests.get(URL)
+
+soup = BeautifulSoup(page.content, "html.parser")
+
+elements = soup.body.find_all('div', attrs={'class': 'mr-4'})
+#print(elements)
+
+message = get_element(elements, "Message")
+message = message.find('p').string
+#message = datafields[2].find('p').get_text(strip=True)
+
+if ( message == "Graded successfully!" ):
+   rprec  = get_element(elements, " R-prec ").find('a').string
+   ndcg   = get_element(elements, " NDCG ").find('a').string
+   clicks = get_element(elements, " Recommended Song Clicks ").find('a').string
+   team   = get_element(elements, " Team name ").find('a').string
+else:
+   print("failed: {}".format(message))
+   exit(1)
+
+print("rprec: {}\nndcg: {}\nclicks: {}\nteam: {}".format(rprec, ndcg, clicks, team))
+exit(0)
