@@ -3,6 +3,11 @@
 # run RS notebook with specific data set.
 #
 #
+# if we have gpus load cuda modules
+if [ "$CUDA_VISIBLE_DEVICES" != "" ]
+then
+  module load cuda11.3/toolkit
+fi
 module load Anaconda3/2021.11
 
 #source /share/apps/rc/software/Anaconda3/2020.11/etc/profile.d/conda.sh
