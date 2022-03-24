@@ -6,6 +6,8 @@ methods=$2
 challenges=$3
 miscargs=$4
 resultsdir=$5
+othernbparams="$6"
+
 
 # save slurm output with results
 if [ "x${resultsdir}" != "x" ]
@@ -40,8 +42,8 @@ do
 	  $miscargs \
           run-vl6.sh
       else
-        NB=$method DATASET=mympd-full-${size}k CNAME=$chall RESULTSDIR=$resultsdir && \
-        NB=$NB DATASET=$DATASET CNAME=$CNAME  RESULTSDIR=$RESULTSDIR \
+        NB=$method DATASET=mympd-full-${size}k CNAME=$chall RESULTSDIR=$resultsdir OTHERNBPARAMS="$othernbparams" && \
+        NB=$NB DATASET=$DATASET CNAME=$CNAME  RESULTSDIR=$RESULTSDIR OTHERNBPARAMS="$OTHERNBPARAMS" \
         sbatch --job-name=$NB-$CNAME-$DATASET \
           -n 1 -N 1 \
           --time=120 \

@@ -23,6 +23,7 @@ papermill \
         -p tagname ${TAGNAME} \
         -p resultsdir ${RESULTSDIR} \
         -p method ${NB} \
+        ${OTHERNBPARAMS} \
         -k mpd3 \
 	${NB}.ipynb \
 	${RESULTSDIR}${NB}_${CNAME}_${DATASET}_slurm-${SLURM_JOBID}.ipynb
