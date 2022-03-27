@@ -28,7 +28,12 @@ papermill \
 	${NB}.ipynb \
 	${RESULTSDIR}${NB}_${CNAME}_${DATASET}_slurm-${SLURM_JOBID}.ipynb
 
-if [ $? -ne 0 ]
+pmreturn=$?
+
+# make notebook read only after papermill to avoid corrupting experiment record
+chmod -w ${RESULTSDIR}${NB}_${CNAME}_${DATASET}_slurm-${SLURM_JOBID}.ipynb
+
+if [ $pmreturn -ne 0 ]
 then
   echo "papermill failed"
   exit 1
