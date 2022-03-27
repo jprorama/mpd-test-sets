@@ -13,6 +13,9 @@ module load Anaconda3/2021.11
 #source /share/apps/rc/software/Anaconda3/2020.11/etc/profile.d/conda.sh
 conda  activate mpd3
 
+# active openmp if multiple CPUs
+export OMP_NUM_THREADS=${SLURM_NPROCS:-1}
+
 ./watchme.sh ${SLURM_TASK_PID} &
 
 TAGNAME=slurm-${SLURM_JOBID}
